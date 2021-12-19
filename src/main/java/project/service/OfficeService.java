@@ -1,8 +1,8 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
-import project.view.OfficeListView;
-import project.view.OfficeView;
+import project.dto.response.office.OfficeListResponse;
+import project.dto.response.office.OfficeResponse;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public interface OfficeService {
      *
      * @return {@Office}
      */
-    List<OfficeListView> getOffices(
+    List<OfficeListResponse> getOffices(
             Long orgId,
             String name,
             String phone,
@@ -51,5 +51,5 @@ public interface OfficeService {
      *
      * @return {@Office}
      */
-    OfficeView getOffice(Long id);
+    OfficeResponse getOffice(Long id);
 }

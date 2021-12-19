@@ -24,8 +24,8 @@ public class DocumentType {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "code_", length = 10, nullable = false)
-    private int code;
+    @Column(name = "code", length = 10, nullable = false)
+    private String code;
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class DocumentType {
         this.name = name;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

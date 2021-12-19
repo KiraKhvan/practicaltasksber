@@ -1,6 +1,8 @@
 package project.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Пользователь
@@ -36,11 +38,20 @@ public class User {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    @ManyToOne
-    @JoinColumn(name = "position_id", nullable = false)
-    private Position position;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "User_Position",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "position_id")
+    )
+    private List<Position> positions;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            optional = false
+    )
     private Document document;
 
     @Column(name = "is_identified")
@@ -87,12 +98,15 @@ public class User {
         this.middleName = middleName;
     }
 
-    public Position getPosition() {
-        return position;
+    public List<Position> getPositions() {
+        if (positions == null) {
+            positions = new ArrayList<>();
+        }
+        return positions;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
     }
 
     public Document getDocument() {
@@ -125,5 +139,13 @@ public class User {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public void addPosition(Position position) {
+        getPositions().add(position);
+    }
+
+    public void removePosition(Position position) {
+        positions.remove(position);
     }
 }

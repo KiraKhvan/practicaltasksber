@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import project.dto.CountryDto;
+import project.dto.DocumentTypeDto;
 import project.service.CountryService;
 import project.service.DocumentTypeService;
-import project.view.CountryView;
-import project.view.DocumentTypeView;
 
 import java.util.List;
 
@@ -32,13 +32,13 @@ public class ReferenceController {
 
     @ApiOperation(value = "Получить список всех типов документов", httpMethod = "GET")
     @GetMapping("/docs")
-    public List<DocumentTypeView> docs() {
+    public List<DocumentTypeDto> docs() {
         return documentTypeService.getAllDocumentTypes();
     }
 
     @ApiOperation(value = "Получить список всех стран", httpMethod = "GET")
     @GetMapping("/countries")
-    public List<CountryView> countries() {
+    public List<CountryDto> countries() {
         return countryService.getAllCountries();
     }
 }

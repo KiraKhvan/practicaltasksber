@@ -1,7 +1,7 @@
 package project.service;
 
-import project.view.UserListView;
-import project.view.UserView;
+import project.dto.response.user.UserListResponse;
+import project.dto.response.user.UserResponse;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +22,7 @@ public interface UserService {
             String phone,
             String docCode,
             String docName,
-            Integer docNumber,
+            String docNumber,
             Date docDate,
             String citizenshipCode,
             Boolean isIdentified
@@ -42,7 +42,7 @@ public interface UserService {
             String positionName,
             String phone,
             String docName,
-            Integer docNumber,
+            String docNumber,
             Date docDate,
             String citizenshipCode,
             Boolean isIdentified
@@ -53,7 +53,7 @@ public interface UserService {
      *
      * @return {@User}
      */
-    List<UserListView> getUsers(
+    List<UserListResponse> getUsers(
             Long officeId,
             String firstName,
             String lastName,
@@ -68,5 +68,5 @@ public interface UserService {
      *
      * @return {@User}
      */
-    UserView getUser(Long id);
+    UserResponse getUser(Long id);
 }

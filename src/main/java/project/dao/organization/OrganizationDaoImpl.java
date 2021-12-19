@@ -2,7 +2,9 @@ package project.dao.organization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import project.controller.exception.NotFoundException;
 import project.model.Organization;
 
 import javax.persistence.EntityManager;
@@ -13,6 +15,7 @@ import java.util.List;
  * {@inheritDoc}
  */
 @Repository
+@Transactional
 public class OrganizationDaoImpl implements OrganizationDao {
 
     private final EntityManager em;
@@ -24,7 +27,13 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
     @Override
     public Organization loadById(Long id) {
-        return em.find(Organization.class, id);
+        Organization organization = em.find(Organization.class, id);
+        if (organization != null) {
+            return organization;
+        } else {
+            throw new NotFoundException("There is no organization with such id");
+        }
+
     }
 
     @Override
@@ -58,7 +67,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
 
         if (!StringUtils.isEmpty(isActive)) {
             builder.append(" ");
-            builder.append("and p.isActive = :isActive");
+            builder.append("and o.isActive = :isActive");
         }
 
         return builder.toString();

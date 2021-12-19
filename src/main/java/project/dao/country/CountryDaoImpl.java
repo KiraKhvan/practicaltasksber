@@ -2,6 +2,7 @@ package project.dao.country;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.model.Country;
 
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import java.util.List;
  * {@inheritDoc}
  */
 @Repository
+@Transactional
 public class CountryDaoImpl implements CountryDao {
 
     private final EntityManager em;

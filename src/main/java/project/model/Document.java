@@ -11,7 +11,6 @@ import java.util.Date;
 public class Document {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private Long id;
 
@@ -25,10 +24,10 @@ public class Document {
     @JoinColumn(name = "document_type_id")
     private DocumentType documentType;
 
-    @Column(name = "number_")
-    private Integer number;
+    @Column(name = "number_", length = 50)
+    private String number;
 
-    @Column(name = "code_", length = 50)
+    @Column(name = "code", length = 50)
     private String code;
 
     @Column(name = "date_")
@@ -38,8 +37,8 @@ public class Document {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     private User user;
 
     public Long getId() {
@@ -58,11 +57,11 @@ public class Document {
         this.documentType = documentType;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

@@ -2,16 +2,17 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.controller.FieldValidator;
 import project.dao.country.CountryDao;
 import project.dao.document.DocumentDao;
 import project.dao.documenttype.DocumentTypeDao;
 import project.dao.office.OfficeDao;
 import project.dao.position.PositionDao;
 import project.dao.user.UserDao;
+import project.dto.response.user.UserListResponse;
+import project.dto.response.user.UserResponse;
 import project.model.*;
 import project.model.mapper.MapperFacade;
-import project.view.UserListView;
-import project.view.UserView;
 
 import java.util.Date;
 import java.util.List;
@@ -57,11 +58,14 @@ public class UserServiceImpl implements UserService {
             String phone,
             String docCode,
             String docName,
-            Integer docNumber,
+            String docNumber,
             Date docDate,
             String citizenshipCode,
             Boolean isIdentified
     ) {
+        FieldValidator.validateRequiredField("Office", officeId);
+        FieldValidator.validateRequiredField("FirstName", firstName);
+        FieldValidator.validateRequiredField("Position", positionName);
         User user = updateOrCreateUser(
                 null,
                 officeId,
@@ -98,11 +102,14 @@ public class UserServiceImpl implements UserService {
             String positionName,
             String phone,
             String docName,
-            Integer docNumber,
+            String docNumber,
             Date docDate,
             String citizenshipCode,
             Boolean isIdentified
     ) {
+        FieldValidator.validateRequiredField("Id", userId);
+        FieldValidator.validateRequiredField("FirstName", firstName);
+        FieldValidator.validateRequiredField("Position", positionName);
         User user = updateOrCreateUser(
                 userId,
                 officeId,
@@ -130,7 +137,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserListView> getUsers(
+    public List<UserListResponse> getUsers(
             Long officeId,
             String firstName,
             String lastName,
@@ -139,6 +146,7 @@ public class UserServiceImpl implements UserService {
             String docCode,
             String citizenshipCode
     ) {
+        FieldValidator.validateRequiredField("Офис", officeId);
         List<User> userList = userDao.getFilteredUserList(
                 officeId,
                 firstName,
@@ -149,12 +157,12 @@ public class UserServiceImpl implements UserService {
                 citizenshipCode
         );
 
-        return mapperFacade.mapAsList(userList, UserListView.class);
+        return mapperFacade.mapAsList(userList, UserListResponse.class);
     }
 
     @Override
-    public UserView getUser(Long id) {
-        return mapperFacade.map(userDao.loadById(id), UserView.class);
+    public UserResponse getUser(Long id) {
+        return mapperFacade.map(userDao.loadById(id), UserResponse.class);
     }
 
     protected User updateOrCreateUser(
@@ -182,7 +190,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(secondName);
         user.setPhone(phone);
         user.setMiddleName(middleName);
-        user.setPosition(position);
+        user.addPosition(position);
         user.setIdentified(isIdentified);
 
         return user;
@@ -191,7 +199,7 @@ public class UserServiceImpl implements UserService {
     protected Document updateOrCreateDocument(
             Long userId,
             String docName,
-            Integer docNumber,
+            String docNumber,
             Date docDate,
             String citizenshipCode
     ) {

@@ -2,6 +2,7 @@ package project.dao.document;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.model.Document;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import javax.persistence.TypedQuery;
  * {@inheritDoc}
  */
 @Repository
+@Transactional
 public class DocumentDaoImpl implements DocumentDao {
 
     private final EntityManager em;

@@ -2,13 +2,15 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.controller.FieldValidator;
+import project.controller.exception.NotFoundException;
 import project.dao.office.OfficeDao;
 import project.dao.organization.OrganizationDao;
+import project.dto.response.office.OfficeListResponse;
+import project.dto.response.office.OfficeResponse;
 import project.model.Office;
 import project.model.Organization;
 import project.model.mapper.MapperFacade;
-import project.view.OfficeListView;
-import project.view.OfficeView;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class OfficeServiceImpl implements OfficeService {
             String phone,
             Boolean isActive
     ) {
+        FieldValidator.validateRequiredField("Organization id", orgId);
         Office office = updateOrCreateOffice(
                 null,
                 orgId,
@@ -58,6 +61,9 @@ public class OfficeServiceImpl implements OfficeService {
             String phone,
             Boolean isActive
     ) {
+        FieldValidator.validateRequiredField("Office id", officeId);
+        FieldValidator.validateRequiredField("Name", name);
+        FieldValidator.validateRequiredField("Address", address);
         Office office = updateOrCreateOffice(
                 officeId,
                 null,
@@ -71,19 +77,19 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public List<OfficeListView> getOffices(
+    public List<OfficeListResponse> getOffices(
             Long orgId,
             String name,
             String phone,
             Boolean isActive
     ) {
         List<Office> officeList = officeDao.getFilteredOfficeList(orgId, name, phone, isActive);
-        return mapperFacade.mapAsList(officeList, OfficeListView.class);
+        return mapperFacade.mapAsList(officeList, OfficeListResponse.class);
     }
 
     @Override
-    public OfficeView getOffice(Long id) {
-        return mapperFacade.map(officeDao.loadById(id), OfficeView.class);
+    public OfficeResponse getOffice(Long id) {
+        return mapperFacade.map(officeDao.loadById(id), OfficeResponse.class);
     }
 
     protected Office updateOrCreateOffice(
@@ -99,10 +105,16 @@ public class OfficeServiceImpl implements OfficeService {
             office = new Office();
         } else {
             office = officeDao.loadById(officeId);
+            if (office == null) {
+                throw new NotFoundException("There is no such office");
+            }
         }
 
         if (orgId != null) {
             Organization organization = organizationDao.loadById(orgId);
+            if (organization == null) {
+                throw new NotFoundException("There is no such organization");
+            }
             office.setOrganization(organization);
         }
 

@@ -3,9 +3,9 @@ package project.model.mapper;
 import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.dto.response.user.UserListResponse;
+import project.dto.response.user.UserResponse;
 import project.model.User;
-import project.view.UserListView;
-import project.view.UserView;
 
 import java.util.List;
 
@@ -19,13 +19,12 @@ public class MapperFacadeImpl implements MapperFacade {
     @Autowired
     public MapperFacadeImpl(MapperFactory mapperFactory) {
         this.mapperFactory = mapperFactory;
-        mapperFactory.classMap(UserListView.class, User.class)
-                .field("position", "position.name")
+        mapperFactory.classMap(UserListResponse.class, User.class)
                 .byDefault()
                 .register();
 
-        mapperFactory.classMap(UserView.class, User.class)
-                .field("position", "position.name")
+        mapperFactory.classMap(UserResponse.class, User.class)
+                /// .field("position", "position.name")
                 .field("docName", "document.documentType.name")
                 .field("docNumber", "document.number")
                 .field("docDate", "document.date")

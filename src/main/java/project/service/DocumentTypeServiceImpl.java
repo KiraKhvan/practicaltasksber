@@ -3,9 +3,9 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.dao.documenttype.DocumentTypeDao;
+import project.dto.DocumentTypeDto;
 import project.model.DocumentType;
 import project.model.mapper.MapperFacade;
-import project.view.DocumentTypeView;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class DocumentTypeServiceImpl implements DocumentTypeService {
     }
 
     @Override
-    public List<DocumentTypeView> getAllDocumentTypes() {
+    public List<DocumentTypeDto> getAllDocumentTypes() {
         List<DocumentType> documentTypeList = documentTypeDao.getAllDocumentTypeList();
-        return mapperFacade.mapAsList(documentTypeList, DocumentTypeView.class);
+        return mapperFacade.mapAsList(documentTypeList, DocumentTypeDto.class);
     }
 }

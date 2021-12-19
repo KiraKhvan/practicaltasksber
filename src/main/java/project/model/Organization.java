@@ -26,8 +26,8 @@ public class Organization {
     @Column(name = "full_name", length = 200, nullable = false)
     private String fullName;
 
-    @Column(name = "kpp", nullable = false)
-    private Integer kpp;
+    @Column(name = "kpp", length = 50, nullable = false)
+    private String kpp;
 
     @Column(name = "address", length = 2000, nullable = false)
     private String address;
@@ -35,8 +35,8 @@ public class Organization {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    @Column(name = "inn", nullable = false)
-    private Integer inn;
+    @Column(name = "inn", length = 50, nullable = false)
+    private String inn;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -52,14 +52,6 @@ public class Organization {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getInn() {
-        return inn;
-    }
-
-    public void setInn(Integer inn) {
-        this.inn = inn;
     }
 
     public Boolean getActive() {
@@ -106,11 +98,19 @@ public class Organization {
         this.version = version;
     }
 
-    public Integer getKpp() {
+    public String getKpp() {
         return kpp;
     }
 
-    public void setKpp(Integer kpp) {
+    public void setKpp(String kpp) {
         this.kpp = kpp;
+    }
+
+    public String getInn() {
+        return inn;
+    }
+
+    public void setInn(String inn) {
+        this.inn = inn;
     }
 }

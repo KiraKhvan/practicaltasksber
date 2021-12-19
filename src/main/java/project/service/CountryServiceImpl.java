@@ -3,9 +3,9 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.dao.country.CountryDao;
+import project.dto.CountryDto;
 import project.model.Country;
 import project.model.mapper.MapperFacade;
-import project.view.CountryView;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<CountryView> getAllCountries() {
+    public List<CountryDto> getAllCountries() {
         List<Country> countryList = countryDao.getAllCountryList();
-        return mapperFacade.mapAsList(countryList, CountryView.class);
+        return mapperFacade.mapAsList(countryList, CountryDto.class);
     }
 }

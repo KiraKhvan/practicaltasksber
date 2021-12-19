@@ -6,9 +6,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import project.dto.filter.office.OfficeFilter;
+import project.dto.request.office.AddOfficeRequest;
+import project.dto.request.office.EditOfficeRequest;
+import project.dto.response.ResultResponse;
+import project.dto.response.office.OfficeListResponse;
+import project.dto.response.office.OfficeResponse;
 import project.service.OfficeService;
-import project.view.OfficeListView;
-import project.view.OfficeView;
 
 import java.util.List;
 
@@ -32,20 +36,15 @@ public class OfficeController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
-    public void save(
-            @RequestParam Long orgId,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String address,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) Boolean isActive
-    ) {
-        officeService.save(
-                orgId,
-                name,
-                address,
-                phone,
-                isActive
+    public ResultResponse save(@RequestBody AddOfficeRequest request) {
+        boolean result = officeService.save(
+                request.orgId,
+                request.name,
+                request.address,
+                request.phone,
+                request.isActive
         );
+        return new ResultResponse(result);
     }
 
     @ApiOperation(value = "Изменить офис", httpMethod = "POST")
@@ -54,36 +53,26 @@ public class OfficeController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
-    public void update(
-            @RequestParam Long id,
-            @RequestParam String name,
-            @RequestParam String address,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) Boolean isActive
-    ) {
-        officeService.update(
-                id,
-                name,
-                address,
-                phone,
-                isActive
+    public ResultResponse update(@RequestBody EditOfficeRequest request) {
+        boolean result = officeService.update(
+                request.id,
+                request.name,
+                request.address,
+                request.phone,
+                request.isActive
         );
+        return new ResultResponse(result);
     }
 
-    @ApiOperation(value = "Получить список всех офисов", httpMethod = "GET")
-    @GetMapping("/list")
-    public List<OfficeListView> offices(
-            @RequestParam Long orgId,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) Boolean isActive
-    ) {
-        return officeService.getOffices(orgId, name, phone, isActive);
+    @ApiOperation(value = "Получить список всех офисов", httpMethod = "POST")
+    @PostMapping("/list")
+    public List<OfficeListResponse> offices(@RequestBody OfficeFilter filter) {
+        return officeService.getOffices(filter.orgId, filter.name, filter.phone, filter.isActive);
     }
 
     @ApiOperation(value = "Получить офис по идентификатору", httpMethod = "GET")
     @GetMapping("/{id}")
-    public OfficeView office(@PathVariable Long id) {
+    public OfficeResponse office(@PathVariable Long id) {
         return officeService.getOffice(id);
     }
 }

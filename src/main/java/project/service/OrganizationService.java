@@ -1,8 +1,8 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
-import project.view.OrganizationListView;
-import project.view.OrganizationView;
+import project.dto.response.organization.OrganizationListResponse;
+import project.dto.response.organization.OrganizationResponse;
 
 import java.util.List;
 
@@ -18,8 +18,8 @@ public interface OrganizationService {
     boolean save(
             String name,
             String fullName,
-            Integer inn,
-            Integer kpp,
+            String inn,
+            String kpp,
             String address,
             String phone,
             Boolean isActive
@@ -31,11 +31,11 @@ public interface OrganizationService {
      * @return {@Organization}
      */
     boolean update(
-            Long id,
+            String id,
             String name,
             String fullName,
-            Integer inn,
-            Integer kpp,
+            String inn,
+            String kpp,
             String address,
             String phone,
             Boolean isActive
@@ -46,7 +46,7 @@ public interface OrganizationService {
      *
      * @return {@Organization}
      */
-    List<OrganizationListView> getOrganizations(
+    List<OrganizationListResponse> getOrganizations(
             String name,
             String inn,
             Boolean isActive
@@ -57,5 +57,5 @@ public interface OrganizationService {
      *
      * @return {@Organization}
      */
-    OrganizationView getOrganization(Long id);
+    OrganizationResponse getOrganization(String id);
 }

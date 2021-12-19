@@ -2,11 +2,13 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.controller.EntityIdParser;
+import project.controller.FieldValidator;
 import project.dao.organization.OrganizationDao;
+import project.dto.response.organization.OrganizationListResponse;
+import project.dto.response.organization.OrganizationResponse;
 import project.model.Organization;
 import project.model.mapper.MapperFacade;
-import project.view.OrganizationListView;
-import project.view.OrganizationView;
 
 import java.util.List;
 
@@ -26,8 +28,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     public boolean save(
             String name,
             String fullName,
-            Integer inn,
-            Integer kpp,
+            String inn,
+            String kpp,
             String address,
             String phone,
             Boolean isActive
@@ -48,17 +50,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public boolean update(
-            Long id,
+            String id,
             String name,
             String fullName,
-            Integer inn,
-            Integer kpp,
+            String inn,
+            String kpp,
             String address,
             String phone,
             Boolean isActive
     ) {
         Organization organization = updateOrCreateOrganization(
-                id,
+                EntityIdParser.parseId(id),
                 name,
                 fullName,
                 inn,
@@ -72,14 +74,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<OrganizationListView> getOrganizations(String name, String inn, Boolean isActive) {
+    public List<OrganizationListResponse> getOrganizations(String name, String inn, Boolean isActive) {
+        FieldValidator.validateRequiredField("Name", name);
         List<Organization> organizationList = organizationDao.getFilteredOrganizationList(name, inn, isActive);
-        return mapperFacade.mapAsList(organizationList, OrganizationListView.class);
+        return mapperFacade.mapAsList(organizationList, OrganizationListResponse.class);
     }
 
     @Override
-    public OrganizationView getOrganization(Long id) {
-        return mapperFacade.map(organizationDao.loadById(id), OrganizationView.class);
+    public OrganizationResponse getOrganization(String id) {
+        return mapperFacade.map(organizationDao.loadById(EntityIdParser.parseId(id)), OrganizationResponse.class);
     }
 
 
@@ -87,12 +90,17 @@ public class OrganizationServiceImpl implements OrganizationService {
             Long id,
             String name,
             String fullName,
-            Integer inn,
-            Integer kpp,
+            String inn,
+            String kpp,
             String address,
             String phone,
             Boolean isActive
     ) {
+        FieldValidator.validateRequiredField("Name", name);
+        FieldValidator.validateRequiredField("Full name", fullName);
+        FieldValidator.validateRequiredField("INN", inn);
+        FieldValidator.validateRequiredField("KPP", kpp);
+        FieldValidator.validateRequiredField("Address", address);
         Organization organization;
         if (id == null) {
             organization = new Organization();

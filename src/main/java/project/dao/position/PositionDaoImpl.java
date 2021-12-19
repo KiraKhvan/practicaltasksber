@@ -2,6 +2,7 @@ package project.dao.position;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import project.model.Position;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ import javax.persistence.criteria.Root;
  * {@inheritDoc}
  */
 @Repository
+@Transactional
 public class PositionDaoImpl implements PositionDao {
 
     private final EntityManager em;

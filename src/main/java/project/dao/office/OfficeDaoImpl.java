@@ -2,6 +2,7 @@ package project.dao.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import project.model.Office;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * {@inheritDoc}
  */
 @Repository
+@Transactional
 public class OfficeDaoImpl implements OfficeDao {
 
     private final EntityManager em;
@@ -58,7 +60,7 @@ public class OfficeDaoImpl implements OfficeDao {
             String phone,
             Boolean isActive
     ) {
-        StringBuilder builder = new StringBuilder("SELECT o FROM Office o where u.organization.id = :orgId");
+        StringBuilder builder = new StringBuilder("SELECT o FROM Office o where o.organization.id = :orgId");
 
         if (!StringUtils.isEmpty(name)) {
             builder.append(" ");

@@ -24,7 +24,7 @@ public class Country {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "code_", length = 10, nullable = false)
+    @Column(name = "code", length = 10, nullable = false)
     private String code;
 
     public Long getId() {

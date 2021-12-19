@@ -1,7 +1,7 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
-import project.view.CountryView;
+import project.dto.CountryDto;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface CountryService {
      *
      * @return {@Country}
      */
-    List<CountryView> getAllCountries();
+    List<CountryDto> getAllCountries();
 }

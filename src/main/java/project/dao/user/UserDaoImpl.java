@@ -2,6 +2,7 @@ package project.dao.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import project.model.User;
 
@@ -13,6 +14,7 @@ import java.util.List;
  * {@inheritDoc}
  */
 @Repository
+@Transactional
 public class UserDaoImpl implements UserDao {
 
     private final EntityManager em;

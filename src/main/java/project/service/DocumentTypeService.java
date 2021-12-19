@@ -1,7 +1,7 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
-import project.view.DocumentTypeView;
+import project.dto.DocumentTypeDto;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface DocumentTypeService {
      *
      * @return {@DocumentType}
      */
-    List<DocumentTypeView> getAllDocumentTypes();
+    List<DocumentTypeDto> getAllDocumentTypes();
 }

@@ -6,9 +6,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import project.dto.filter.organization.OrganizationFilter;
+import project.dto.request.organization.AddOrganizationRequest;
+import project.dto.request.organization.EditOrganizationRequest;
+import project.dto.response.ResultResponse;
+import project.dto.response.organization.OrganizationListResponse;
+import project.dto.response.organization.OrganizationResponse;
 import project.service.OrganizationService;
-import project.view.OrganizationListView;
-import project.view.OrganizationView;
 
 import java.util.List;
 
@@ -32,25 +36,17 @@ public class OrganizationController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
-    public void save(
-
-            @RequestParam String name,
-            @RequestParam String fullName,
-            @RequestParam Integer inn,
-            @RequestParam Integer kpp,
-            @RequestParam String address,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) Boolean isActive
-    ) {
-        organizationService.save(
-                name,
-                fullName,
-                inn,
-                kpp,
-                address,
-                phone,
-                isActive
+    public ResultResponse save(@RequestBody AddOrganizationRequest request) {
+        boolean result = organizationService.save(
+                request.name,
+                request.fullName,
+                request.inn,
+                request.kpp,
+                request.address,
+                request.phone,
+                request.isActive
         );
+        return new ResultResponse(result);
     }
 
     @ApiOperation(value = "Изменить организацию", httpMethod = "POST")
@@ -59,41 +55,29 @@ public class OrganizationController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
-    public void update(
-            @RequestParam Long id,
-            @RequestParam String name,
-            @RequestParam String fullName,
-            @RequestParam Integer inn,
-            @RequestParam Integer kpp,
-            @RequestParam String address,
-            @RequestParam(required = false) String phone,
-            @RequestParam(required = false) Boolean isActive
-    ) {
-        organizationService.update(
-                id,
-                name,
-                fullName,
-                inn,
-                kpp,
-                address,
-                phone,
-                isActive
+    public ResultResponse update(@RequestBody EditOrganizationRequest request) {
+        boolean result = organizationService.update(
+                request.id,
+                request.name,
+                request.fullName,
+                request.inn,
+                request.kpp,
+                request.address,
+                request.phone,
+                request.isActive
         );
+        return new ResultResponse(result);
     }
 
-    @ApiOperation(value = "Получить фильтрованный список организаций", httpMethod = "GET")
-    @GetMapping("/list")
-    public List<OrganizationListView> organizations(
-            @RequestParam String name,
-            @RequestParam(required = false) String inn,
-            @RequestParam(required = false) Boolean isActive
-    ) {
-        return organizationService.getOrganizations(name, inn, isActive);
+    @ApiOperation(value = "Получить фильтрованный список организаций", httpMethod = "POST")
+    @PostMapping("/list")
+    public List<OrganizationListResponse> organizations(@RequestBody OrganizationFilter filter) {
+        return organizationService.getOrganizations(filter.name, filter.inn, filter.isActive);
     }
 
     @ApiOperation(value = "Получить организацию по идентификатору", httpMethod = "GET")
     @GetMapping("/{id}")
-    public OrganizationView organization(@PathVariable Long id) {
+    public OrganizationResponse organization(@PathVariable String id) {
         return organizationService.getOrganization(id);
     }
 }
