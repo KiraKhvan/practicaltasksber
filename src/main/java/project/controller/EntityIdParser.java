@@ -1,6 +1,6 @@
 package project.controller;
 
-import project.controller.exception.BadRequestException;
+import project.exception.BadRequestException;
 
 public class EntityIdParser {
 

@@ -18,6 +18,14 @@ public interface OfficeDao {
     Office loadById(Long id);
 
     /**
+     * Получить Office по имени
+     *
+     * @param name
+     * @return
+     */
+    Office loadByName(String name);
+
+    /**
      * Сохранить нового Office
      *
      * @param office

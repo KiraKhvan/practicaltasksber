@@ -1,7 +1,7 @@
 package project.controller;
 
 import org.springframework.util.StringUtils;
-import project.controller.exception.BadRequestException;
+import project.exception.BadRequestException;
 
 public class FieldValidator {
 

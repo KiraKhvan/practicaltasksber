@@ -30,6 +30,18 @@ public class OfficeDaoImpl implements OfficeDao {
     }
 
     @Override
+    public Office loadByName(String name) {
+        Object result = em.createQuery("SELECT o FROM Office o where o.name = :name")
+                .setParameter("name", name)
+                .getSingleResult();
+        if (result != null) {
+            return (Office) result;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public void save(Office office) {
         em.persist(office);
     }

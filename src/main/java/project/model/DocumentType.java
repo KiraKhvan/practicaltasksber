@@ -1,6 +1,5 @@
 package project.model;
 
-
 import javax.persistence.*;
 
 /**

@@ -190,7 +190,6 @@ public class UserServiceImpl implements UserService {
         user.setLastName(secondName);
         user.setPhone(phone);
         user.setMiddleName(middleName);
-        user.addPosition(position);
         user.setIdentified(isIdentified);
 
         return user;

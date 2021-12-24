@@ -1,10 +1,10 @@
-package project.controller.exception;
+package project.dto;
 
-public class ExceptionMessage {
+public class ExceptionMessageDto {
 
     private String error;
 
-    public ExceptionMessage(String error) {
+    public ExceptionMessageDto(String error) {
         this.error = error;
     }
 

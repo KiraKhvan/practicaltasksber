@@ -18,6 +18,14 @@ public interface OrganizationDao {
     Organization loadById(Long id);
 
     /**
+     * Получить Organization по имени
+     *
+     * @param name
+     * @return
+     */
+    Organization loadByName(String name);
+
+    /**
      * Сохранить новую Organization
      *
      * @param organization

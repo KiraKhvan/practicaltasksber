@@ -1,33 +1,36 @@
-package project.controller.exception;
+package project.controller.aspect.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import project.dto.ExceptionMessageDto;
+import project.exception.BadRequestException;
+import project.exception.NotFoundException;
 
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ExceptionMessage> handleNotFoundException(NotFoundException e) {
+    public ResponseEntity<ExceptionMessageDto> handleNotFoundException(NotFoundException e) {
         return new ResponseEntity<>(
-                new ExceptionMessage(e.getMessage()),
+                new ExceptionMessageDto(e.getMessage()),
                 HttpStatus.NOT_FOUND
         );
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ExceptionMessage> handleBadRequestException(BadRequestException e) {
+    public ResponseEntity<ExceptionMessageDto> handleBadRequestException(BadRequestException e) {
         return new ResponseEntity<>(
-                new ExceptionMessage(e.getMessage()),
+                new ExceptionMessageDto(e.getMessage()),
                 HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionMessage> handleBadRequestException(Exception e) {
+    public ResponseEntity<ExceptionMessageDto> handleBadRequestException(Exception e) {
         return new ResponseEntity<>(
-                new ExceptionMessage(e.getMessage()),
+                new ExceptionMessageDto(e.getMessage()),
                 HttpStatus.BAD_REQUEST
         );
     }

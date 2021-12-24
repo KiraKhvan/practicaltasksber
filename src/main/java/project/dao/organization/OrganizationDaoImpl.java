@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import project.controller.exception.NotFoundException;
+import project.exception.NotFoundException;
 import project.model.Organization;
 
 import javax.persistence.EntityManager;
@@ -33,7 +33,18 @@ public class OrganizationDaoImpl implements OrganizationDao {
         } else {
             throw new NotFoundException("There is no organization with such id");
         }
+    }
 
+    @Override
+    public Organization loadByName(String name) {
+        Object result = em.createQuery("SELECT o FROM Organization o where o.name = :name")
+                .setParameter("name", name)
+                .getSingleResult();
+        if (result != null) {
+            return (Organization) result;
+        } else {
+            return null;
+        }
     }
 
     @Override
