@@ -9,6 +9,9 @@ import project.dao.documenttype.DocumentTypeDao;
 import project.dao.office.OfficeDao;
 import project.dao.position.PositionDao;
 import project.dao.user.UserDao;
+import project.dto.filter.user.UserFilter;
+import project.dto.request.user.AddUserRequest;
+import project.dto.request.user.EditUserRequest;
 import project.dto.response.user.UserListResponse;
 import project.dto.response.user.UserResponse;
 import project.model.*;
@@ -49,41 +52,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean save(
-            Long officeId,
-            String firstName,
-            String secondName,
-            String middleName,
-            String positionName,
-            String phone,
-            String docCode,
-            String docName,
-            String docNumber,
-            Date docDate,
-            String citizenshipCode,
-            Boolean isIdentified
-    ) {
-        FieldValidator.validateRequiredField("Office", officeId);
-        FieldValidator.validateRequiredField("FirstName", firstName);
-        FieldValidator.validateRequiredField("Position", positionName);
+    public boolean save(AddUserRequest request) {
+        FieldValidator.validateRequiredField("Office", request.officeId);
+        FieldValidator.validateRequiredField("FirstName", request.firstName);
+        FieldValidator.validateRequiredField("Position", request.position);
         User user = updateOrCreateUser(
                 null,
-                officeId,
-                firstName,
-                secondName,
-                middleName,
-                positionName,
-                phone,
-                isIdentified
+                request.officeId,
+                request.firstName,
+                request.lastName,
+                request.middleName,
+                request.position,
+                request.phone,
+                request.isIdentified
         );
         userDao.save(user);
 
         Document document = updateOrCreateDocument(
                 null,
-                docName,
-                docNumber,
-                docDate,
-                citizenshipCode
+                request.docName,
+                request.docNumber,
+                request.docDate,
+                request.citizenshipCode
         );
         document.setUser(user);
 
@@ -93,42 +83,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean update(
-            Long userId,
-            Long officeId,
-            String firstName,
-            String secondName,
-            String middleName,
-            String positionName,
-            String phone,
-            String docName,
-            String docNumber,
-            Date docDate,
-            String citizenshipCode,
-            Boolean isIdentified
-    ) {
-        FieldValidator.validateRequiredField("Id", userId);
-        FieldValidator.validateRequiredField("FirstName", firstName);
-        FieldValidator.validateRequiredField("Position", positionName);
+    public boolean update(EditUserRequest request) {
+        FieldValidator.validateRequiredField("Id", request.id);
+        FieldValidator.validateRequiredField("FirstName", request.firstName);
+        FieldValidator.validateRequiredField("Position", request.position);
         User user = updateOrCreateUser(
-                userId,
-                officeId,
-                firstName,
-                secondName,
-                middleName,
-                positionName,
-                phone,
-                isIdentified
+                request.id,
+                request.officeId,
+                request.firstName,
+                request.lastName,
+                request.middleName,
+                request.position,
+                request.phone,
+                request.isIdentified
         );
 
         userDao.update(user);
 
         Document document = updateOrCreateDocument(
-                userId,
-                docName,
-                docNumber,
-                docDate,
-                citizenshipCode
+                request.id,
+                request.docName,
+                request.docNumber,
+                request.docDate,
+                request.citizenshipCode
         );
 
         documentDao.update(document);
@@ -137,24 +114,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserListResponse> getUsers(
-            Long officeId,
-            String firstName,
-            String lastName,
-            String middleName,
-            String position,
-            String docCode,
-            String citizenshipCode
-    ) {
-        FieldValidator.validateRequiredField("Офис", officeId);
+    public List<UserListResponse> getUsers(UserFilter filter) {
+        FieldValidator.validateRequiredField("Офис", filter.officeId);
         List<User> userList = userDao.getFilteredUserList(
-                officeId,
-                firstName,
-                lastName,
-                middleName,
-                position,
-                docCode,
-                citizenshipCode
+                filter.officeId,
+                filter.firstName,
+                filter.lastName,
+                filter.middleName,
+                filter.position,
+                filter.docCode,
+                filter.citizenshipCode
         );
 
         return mapperFacade.mapAsList(userList, UserListResponse.class);

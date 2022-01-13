@@ -37,15 +37,7 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
     public ResultResponse save(@RequestBody AddOrganizationRequest request) {
-        boolean result = organizationService.save(
-                request.name,
-                request.fullName,
-                request.inn,
-                request.kpp,
-                request.address,
-                request.phone,
-                request.isActive
-        );
+        boolean result = organizationService.save(request);
         return new ResultResponse(result);
     }
 
@@ -56,23 +48,14 @@ public class OrganizationController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
     public ResultResponse update(@RequestBody EditOrganizationRequest request) {
-        boolean result = organizationService.update(
-                request.id,
-                request.name,
-                request.fullName,
-                request.inn,
-                request.kpp,
-                request.address,
-                request.phone,
-                request.isActive
-        );
+        boolean result = organizationService.update(request);
         return new ResultResponse(result);
     }
 
     @ApiOperation(value = "Получить фильтрованный список организаций", httpMethod = "POST")
     @PostMapping("/list")
     public List<OrganizationListResponse> organizations(@RequestBody OrganizationFilter filter) {
-        return organizationService.getOrganizations(filter.name, filter.inn, filter.isActive);
+        return organizationService.getOrganizations(filter);
     }
 
     @ApiOperation(value = "Получить организацию по идентификатору", httpMethod = "GET")

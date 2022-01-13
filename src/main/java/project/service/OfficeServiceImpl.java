@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import project.controller.FieldValidator;
 import project.dao.office.OfficeDao;
 import project.dao.organization.OrganizationDao;
+import project.dto.filter.office.OfficeFilter;
+import project.dto.request.office.AddOfficeRequest;
+import project.dto.request.office.EditOfficeRequest;
 import project.dto.response.office.OfficeListResponse;
 import project.dto.response.office.OfficeResponse;
 import project.exception.NotFoundException;
@@ -33,57 +36,45 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    public boolean save(
-            Long orgId,
-            String name,
-            String address,
-            String phone,
-            Boolean isActive
-    ) {
-        FieldValidator.validateRequiredField("Organization id", orgId);
+    public boolean save(AddOfficeRequest request) {
+        FieldValidator.validateRequiredField("Organization id", request.orgId);
         Office office = updateOrCreateOffice(
                 null,
-                orgId,
-                name,
-                address,
-                phone,
-                isActive
+                request.orgId,
+                request.name,
+                request.address,
+                request.phone,
+                request.isActive
         );
         officeDao.save(office);
         return true;
     }
 
     @Override
-    public boolean update(
-            Long officeId,
-            String name,
-            String address,
-            String phone,
-            Boolean isActive
-    ) {
-        FieldValidator.validateRequiredField("Office id", officeId);
-        FieldValidator.validateRequiredField("Name", name);
-        FieldValidator.validateRequiredField("Address", address);
+    public boolean update(EditOfficeRequest request) {
+        FieldValidator.validateRequiredField("Office id", request.id);
+        FieldValidator.validateRequiredField("Name", request.name);
+        FieldValidator.validateRequiredField("Address", request.address);
         Office office = updateOrCreateOffice(
-                officeId,
+                request.id,
                 null,
-                name,
-                address,
-                phone,
-                isActive
+                request.name,
+                request.address,
+                request.phone,
+                request.isActive
         );
         officeDao.save(office);
         return true;
     }
 
     @Override
-    public List<OfficeListResponse> getOffices(
-            Long orgId,
-            String name,
-            String phone,
-            Boolean isActive
-    ) {
-        List<Office> officeList = officeDao.getFilteredOfficeList(orgId, name, phone, isActive);
+    public List<OfficeListResponse> getOffices(OfficeFilter filter) {
+        List<Office> officeList = officeDao.getFilteredOfficeList(
+                filter.orgId,
+                filter.name,
+                filter.phone,
+                filter.isActive
+        );
         return mapperFacade.mapAsList(officeList, OfficeListResponse.class);
     }
 

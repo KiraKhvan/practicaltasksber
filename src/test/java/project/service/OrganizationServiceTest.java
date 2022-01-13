@@ -1,4 +1,4 @@
-package project.controller;
+package project.service;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import project.dto.filter.organization.OrganizationFilter;
 import project.dto.request.organization.AddOrganizationRequest;
 import project.dto.request.organization.EditOrganizationRequest;
 import project.model.Organization;
-import project.service.OrganizationService;
 
 import javax.persistence.EntityManager;
 
@@ -24,7 +23,7 @@ import javax.persistence.EntityManager;
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class OrganizationControllerTest {
+public class OrganizationServiceTest {
 
     @Autowired
     private OrganizationService organizationService;

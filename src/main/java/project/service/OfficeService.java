@@ -1,6 +1,9 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
+import project.dto.filter.office.OfficeFilter;
+import project.dto.request.office.AddOfficeRequest;
+import project.dto.request.office.EditOfficeRequest;
 import project.dto.response.office.OfficeListResponse;
 import project.dto.response.office.OfficeResponse;
 
@@ -15,36 +18,19 @@ public interface OfficeService {
     /**
      * Добавить новый офис в БД
      */
-    boolean save(
-            Long orgId,
-            String name,
-            String address,
-            String phone,
-            Boolean isActive
-    );
+    boolean save(AddOfficeRequest request);
 
     /**
      * Изменить информацию об офисе
      */
-    boolean update(
-            Long officeId,
-            String name,
-            String address,
-            String phone,
-            Boolean isActive
-    );
+    boolean update(EditOfficeRequest request);
 
     /**
      * Получить фильтрованный список офисов
      *
      * @return {@Office}
      */
-    List<OfficeListResponse> getOffices(
-            Long orgId,
-            String name,
-            String phone,
-            Boolean isActive
-    );
+    List<OfficeListResponse> getOffices(OfficeFilter filter);
 
     /**
      * Получить офис по идентификатору

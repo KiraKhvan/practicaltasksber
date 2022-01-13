@@ -1,9 +1,11 @@
 package project.service;
 
+import project.dto.filter.user.UserFilter;
+import project.dto.request.user.AddUserRequest;
+import project.dto.request.user.EditUserRequest;
 import project.dto.response.user.UserListResponse;
 import project.dto.response.user.UserResponse;
 
-import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -13,55 +15,21 @@ public interface UserService {
      *
      * @param
      */
-    boolean save(
-            Long officeId,
-            String firstName,
-            String secondName,
-            String middleName,
-            String positionName,
-            String phone,
-            String docCode,
-            String docName,
-            String docNumber,
-            Date docDate,
-            String citizenshipCode,
-            Boolean isIdentified
-    );
+    boolean save(AddUserRequest request);
 
     /**
      * Изменить информацию о пользователе
      *
      * @return {@User}
      */
-    boolean update(
-            Long userId,
-            Long officeId,
-            String firstName,
-            String secondName,
-            String middleName,
-            String positionName,
-            String phone,
-            String docName,
-            String docNumber,
-            Date docDate,
-            String citizenshipCode,
-            Boolean isIdentified
-    );
+    boolean update(EditUserRequest request);
 
     /**
      * Получить список пользователей
      *
      * @return {@User}
      */
-    List<UserListResponse> getUsers(
-            Long officeId,
-            String firstName,
-            String lastName,
-            String middleName,
-            String position,
-            String docCode,
-            String citizenshipCode
-    );
+    List<UserListResponse> getUsers(UserFilter filter);
 
     /**
      * Получить пользователя по идентификатору

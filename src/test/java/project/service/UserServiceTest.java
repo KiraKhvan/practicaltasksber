@@ -1,4 +1,4 @@
-package project.controller;
+package project.service;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import project.dto.filter.user.UserFilter;
 import project.dto.request.user.AddUserRequest;
 import project.dto.request.user.EditUserRequest;
 import project.model.User;
-import project.service.UserService;
 
 import javax.persistence.EntityManager;
 import java.util.Date;
@@ -25,7 +24,8 @@ import java.util.Date;
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class UserControllerTest {
+public class UserServiceTest {
+
 
     @Autowired
     private UserService userService;

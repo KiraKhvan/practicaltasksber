@@ -1,4 +1,4 @@
-package project.controller;
+package project.service;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import project.dto.filter.office.OfficeFilter;
 import project.dto.request.office.AddOfficeRequest;
 import project.dto.request.office.EditOfficeRequest;
 import project.model.Office;
-import project.service.OfficeService;
 
 import javax.persistence.EntityManager;
 
@@ -24,8 +23,7 @@ import javax.persistence.EntityManager;
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class OfficeControllerTest {
-
+public class OfficeServiceTest {
     @Autowired
     private OfficeService officeService;
 

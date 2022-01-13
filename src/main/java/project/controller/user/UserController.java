@@ -37,20 +37,7 @@ public class UserController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
     public ResultResponse save(@RequestBody AddUserRequest request) {
-        boolean result = userService.save(
-                request.officeId,
-                request.firstName,
-                request.lastName,
-                request.middleName,
-                request.position,
-                request.phone,
-                request.docCode,
-                request.docName,
-                request.docNumber,
-                request.docDate,
-                request.citizenshipCode,
-                request.isIdentified
-        );
+        boolean result = userService.save(request);
         return new ResultResponse(result);
     }
 
@@ -61,35 +48,14 @@ public class UserController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
     public ResultResponse update(@RequestBody EditUserRequest request) {
-        boolean result = userService.update(
-                request.id,
-                request.officeId,
-                request.firstName,
-                request.lastName,
-                request.middleName,
-                request.position,
-                request.phone,
-                request.docName,
-                request.docNumber,
-                request.docDate,
-                request.citizenshipCode,
-                request.isIdentified
-        );
+        boolean result = userService.update(request);
         return new ResultResponse(result);
     }
 
     @ApiOperation(value = "Получить список всех пользователей", httpMethod = "POST")
     @PostMapping("/list")
     public List<UserListResponse> users(@RequestBody UserFilter filter) {
-        return userService.getUsers(
-                filter.officeId,
-                filter.firstName,
-                filter.lastName,
-                filter.middleName,
-                filter.position,
-                filter.docCode,
-                filter.citizenshipCode
-        );
+        return userService.getUsers(filter);
     }
 
     @ApiOperation(value = "Получить пользователя по идентификатору", httpMethod = "GET")

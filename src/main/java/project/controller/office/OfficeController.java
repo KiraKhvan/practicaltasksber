@@ -37,13 +37,7 @@ public class OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
     public ResultResponse save(@RequestBody AddOfficeRequest request) {
-        boolean result = officeService.save(
-                request.orgId,
-                request.name,
-                request.address,
-                request.phone,
-                request.isActive
-        );
+        boolean result = officeService.save(request);
         return new ResultResponse(result);
     }
 
@@ -54,20 +48,14 @@ public class OfficeController {
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
     public ResultResponse update(@RequestBody EditOfficeRequest request) {
-        boolean result = officeService.update(
-                request.id,
-                request.name,
-                request.address,
-                request.phone,
-                request.isActive
-        );
+        boolean result = officeService.update(request);
         return new ResultResponse(result);
     }
 
     @ApiOperation(value = "Получить список всех офисов", httpMethod = "POST")
     @PostMapping("/list")
     public List<OfficeListResponse> offices(@RequestBody OfficeFilter filter) {
-        return officeService.getOffices(filter.orgId, filter.name, filter.phone, filter.isActive);
+        return officeService.getOffices(filter);
     }
 
     @ApiOperation(value = "Получить офис по идентификатору", httpMethod = "GET")
