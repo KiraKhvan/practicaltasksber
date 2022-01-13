@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class EditOrganizationRequest {
 
     @ApiModelProperty(value = "Уникальный идентификатор")
-    public String id;
+    public Long id;
 
     @ApiModelProperty(value = "Наименование")
     public String name;

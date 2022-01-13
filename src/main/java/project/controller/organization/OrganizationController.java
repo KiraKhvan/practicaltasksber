@@ -57,7 +57,7 @@ public class OrganizationController {
 
     @ApiOperation(value = "Получить организацию по идентификатору", httpMethod = "GET")
     @GetMapping("/{id}")
-    public OrganizationResponse organization(@PathVariable String id) {
+    public OrganizationResponse organization(@PathVariable Long id) {
         return organizationService.getOrganization(id);
     }
 }

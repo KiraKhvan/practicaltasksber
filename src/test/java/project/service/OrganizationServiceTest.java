@@ -62,7 +62,7 @@ public class OrganizationServiceTest {
         Organization organization = organizationDao.loadByName("name");
 
         EditOrganizationRequest editOrganizationRequest = new EditOrganizationRequest();
-        editOrganizationRequest.id = organization.getId().toString();
+        editOrganizationRequest.id = organization.getId();
         editOrganizationRequest.name = "name2";
         editOrganizationRequest.fullName = "fullName";
         editOrganizationRequest.inn = "inn";
@@ -109,6 +109,6 @@ public class OrganizationServiceTest {
 
         Organization organization = organizationDao.loadByName("name");
 
-        Assert.assertNotNull(organizationService.getOrganization(organization.getId().toString()));
+        Assert.assertNotNull(organizationService.getOrganization(organization.getId()));
     }
 }

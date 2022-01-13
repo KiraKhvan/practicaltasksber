@@ -24,13 +24,13 @@ public class Document {
     @JoinColumn(name = "document_type_id")
     private DocumentType documentType;
 
-    @Column(name = "number_", length = 50)
+    @Column(name = "number", length = 50)
     private String number;
 
     @Column(name = "code", length = 50)
     private String code;
 
-    @Column(name = "date_")
+    @Column(name = "date")
     private Date date;
 
     @ManyToOne

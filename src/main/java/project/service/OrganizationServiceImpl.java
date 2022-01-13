@@ -3,7 +3,6 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import project.controller.EntityIdParser;
 import project.dao.organization.OrganizationDao;
 import project.dto.filter.organization.OrganizationFilter;
 import project.dto.request.organization.AddOrganizationRequest;
@@ -47,7 +46,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public boolean update(EditOrganizationRequest request) {
         Organization organization = updateOrCreateOrganization(
-                EntityIdParser.parseId(request.id),
+                request.id,
                 request.name,
                 request.fullName,
                 request.inn,
@@ -74,8 +73,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public OrganizationResponse getOrganization(String id) {
-        return mapperFacade.map(organizationDao.loadById(EntityIdParser.parseId(id)), OrganizationResponse.class);
+    public OrganizationResponse getOrganization(Long id) {
+        return mapperFacade.map(organizationDao.loadById(id), OrganizationResponse.class);
     }
 
 

@@ -39,5 +39,5 @@ public interface OrganizationService {
      *
      * @return {@Organization}
      */
-    OrganizationResponse getOrganization(String id);
+    OrganizationResponse getOrganization(Long id);
 }

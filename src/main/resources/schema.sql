@@ -79,9 +79,9 @@ CREATE TABLE IF NOT EXISTS Document (
     user_id                  INTEGER                     COMMENT 'Уникальный идентификатор',
     version             INTEGER NOT NULL            COMMENT 'Служебное поле hibernate',
     document_type_id    INTEGER                     COMMENT 'Тип документа',
-    number_             VARCHAR(50)                 COMMENT 'Номер документа',
+    number              VARCHAR(50)                 COMMENT 'Номер документа',
     code                VARCHAR(50)                 COMMENT 'Код документа',
-    date_               TIMESTAMP WITHOUT TIME ZONE COMMENT 'Дата документа',
+    date                TIMESTAMP WITHOUT TIME ZONE COMMENT 'Дата документа',
     country_id          INTEGER                     COMMENT 'Страна'
 );
 COMMENT ON TABLE Document IS 'Документ';
