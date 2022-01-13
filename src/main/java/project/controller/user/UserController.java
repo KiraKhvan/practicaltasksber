@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import project.dto.filter.user.UserFilter;
 import project.dto.request.user.AddUserRequest;
 import project.dto.request.user.EditUserRequest;
-import project.dto.response.ResultResponse;
 import project.dto.response.user.UserListResponse;
 import project.dto.response.user.UserResponse;
 import project.service.UserService;
@@ -36,9 +35,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
-    public ResultResponse save(@RequestBody AddUserRequest request) {
-        boolean result = userService.save(request);
-        return new ResultResponse(result);
+    public void save(@RequestBody AddUserRequest request) {
+        userService.save(request);
     }
 
     @ApiOperation(value = "Изменить пользователя", httpMethod = "POST")
@@ -47,9 +45,8 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
-    public ResultResponse update(@RequestBody EditUserRequest request) {
-        boolean result = userService.update(request);
-        return new ResultResponse(result);
+    public void update(@RequestBody EditUserRequest request) {
+        userService.update(request);
     }
 
     @ApiOperation(value = "Получить список всех пользователей", httpMethod = "POST")

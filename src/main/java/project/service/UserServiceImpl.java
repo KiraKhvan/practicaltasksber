@@ -2,7 +2,7 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.controller.FieldValidator;
+import org.springframework.util.StringUtils;
 import project.dao.country.CountryDao;
 import project.dao.document.DocumentDao;
 import project.dao.documenttype.DocumentTypeDao;
@@ -14,6 +14,7 @@ import project.dto.request.user.AddUserRequest;
 import project.dto.request.user.EditUserRequest;
 import project.dto.response.user.UserListResponse;
 import project.dto.response.user.UserResponse;
+import project.exception.BadRequestException;
 import project.model.*;
 import project.model.mapper.MapperFacade;
 
@@ -53,9 +54,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean save(AddUserRequest request) {
-        FieldValidator.validateRequiredField("Office", request.officeId);
-        FieldValidator.validateRequiredField("FirstName", request.firstName);
-        FieldValidator.validateRequiredField("Position", request.position);
+        if (request.officeId == null) {
+            throw new BadRequestException("Office cannot be null");
+        }
+        if (StringUtils.isEmpty(request.firstName)) {
+            throw new BadRequestException("FirstName cannot be empty");
+        }
+        if (StringUtils.isEmpty(request.position)) {
+            throw new BadRequestException("Position cannot be empty");
+        }
         User user = updateOrCreateUser(
                 null,
                 request.officeId,
@@ -84,9 +91,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean update(EditUserRequest request) {
-        FieldValidator.validateRequiredField("Id", request.id);
-        FieldValidator.validateRequiredField("FirstName", request.firstName);
-        FieldValidator.validateRequiredField("Position", request.position);
+        if (request.id == null) {
+            throw new BadRequestException("Id cannot be null");
+        }
+        if (StringUtils.isEmpty(request.firstName)) {
+            throw new BadRequestException("FirstName cannot be empty");
+        }
+        if (StringUtils.isEmpty(request.position)) {
+            throw new BadRequestException("Position cannot be empty");
+        }
         User user = updateOrCreateUser(
                 request.id,
                 request.officeId,
@@ -115,7 +128,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserListResponse> getUsers(UserFilter filter) {
-        FieldValidator.validateRequiredField("Офис", filter.officeId);
+        if (filter.officeId == null) {
+            throw new BadRequestException("Office cannot be null");
+        }
         List<User> userList = userDao.getFilteredUserList(
                 filter.officeId,
                 filter.firstName,

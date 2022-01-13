@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import project.dto.filter.office.OfficeFilter;
 import project.dto.request.office.AddOfficeRequest;
 import project.dto.request.office.EditOfficeRequest;
-import project.dto.response.ResultResponse;
 import project.dto.response.office.OfficeListResponse;
 import project.dto.response.office.OfficeResponse;
 import project.service.OfficeService;
@@ -36,9 +35,8 @@ public class OfficeController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
-    public ResultResponse save(@RequestBody AddOfficeRequest request) {
-        boolean result = officeService.save(request);
-        return new ResultResponse(result);
+    public void save(@RequestBody AddOfficeRequest request) {
+        officeService.save(request);
     }
 
     @ApiOperation(value = "Изменить офис", httpMethod = "POST")
@@ -47,9 +45,8 @@ public class OfficeController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
-    public ResultResponse update(@RequestBody EditOfficeRequest request) {
-        boolean result = officeService.update(request);
-        return new ResultResponse(result);
+    public void update(@RequestBody EditOfficeRequest request) {
+        officeService.update(request);
     }
 
     @ApiOperation(value = "Получить список всех офисов", httpMethod = "POST")

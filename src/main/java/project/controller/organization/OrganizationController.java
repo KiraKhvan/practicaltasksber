@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import project.dto.filter.organization.OrganizationFilter;
 import project.dto.request.organization.AddOrganizationRequest;
 import project.dto.request.organization.EditOrganizationRequest;
-import project.dto.response.ResultResponse;
 import project.dto.response.organization.OrganizationListResponse;
 import project.dto.response.organization.OrganizationResponse;
 import project.service.OrganizationService;
@@ -36,9 +35,8 @@ public class OrganizationController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/save")
-    public ResultResponse save(@RequestBody AddOrganizationRequest request) {
-        boolean result = organizationService.save(request);
-        return new ResultResponse(result);
+    public void save(@RequestBody AddOrganizationRequest request) {
+        organizationService.save(request);
     }
 
     @ApiOperation(value = "Изменить организацию", httpMethod = "POST")
@@ -47,9 +45,8 @@ public class OrganizationController {
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Failure")})
     @PostMapping("/update")
-    public ResultResponse update(@RequestBody EditOrganizationRequest request) {
-        boolean result = organizationService.update(request);
-        return new ResultResponse(result);
+    public void update(@RequestBody EditOrganizationRequest request) {
+        organizationService.update(request);
     }
 
     @ApiOperation(value = "Получить фильтрованный список организаций", httpMethod = "POST")

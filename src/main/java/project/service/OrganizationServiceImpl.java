@@ -2,14 +2,15 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import project.controller.EntityIdParser;
-import project.controller.FieldValidator;
 import project.dao.organization.OrganizationDao;
 import project.dto.filter.organization.OrganizationFilter;
 import project.dto.request.organization.AddOrganizationRequest;
 import project.dto.request.organization.EditOrganizationRequest;
 import project.dto.response.organization.OrganizationListResponse;
 import project.dto.response.organization.OrganizationResponse;
+import project.exception.BadRequestException;
 import project.model.Organization;
 import project.model.mapper.MapperFacade;
 
@@ -61,7 +62,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<OrganizationListResponse> getOrganizations(OrganizationFilter filter) {
-        FieldValidator.validateRequiredField("Name", filter.name);
+        if (StringUtils.isEmpty(filter.name)) {
+            throw new BadRequestException("Name cannot be empty");
+        }
         List<Organization> organizationList = organizationDao.getFilteredOrganizationList(
                 filter.name,
                 filter.inn,
@@ -86,11 +89,21 @@ public class OrganizationServiceImpl implements OrganizationService {
             String phone,
             Boolean isActive
     ) {
-        FieldValidator.validateRequiredField("Name", name);
-        FieldValidator.validateRequiredField("Full name", fullName);
-        FieldValidator.validateRequiredField("INN", inn);
-        FieldValidator.validateRequiredField("KPP", kpp);
-        FieldValidator.validateRequiredField("Address", address);
+        if (StringUtils.isEmpty(name)) {
+            throw new BadRequestException("Name cannot be empty");
+        }
+        if (StringUtils.isEmpty(fullName)) {
+            throw new BadRequestException("Full name cannot be empty");
+        }
+        if (StringUtils.isEmpty(inn)) {
+            throw new BadRequestException("INN cannot be empty");
+        }
+        if (StringUtils.isEmpty(kpp)) {
+            throw new BadRequestException("KPP cannot be empty");
+        }
+        if (StringUtils.isEmpty(address)) {
+            throw new BadRequestException("Address cannot be empty");
+        }
         Organization organization;
         if (id == null) {
             organization = new Organization();

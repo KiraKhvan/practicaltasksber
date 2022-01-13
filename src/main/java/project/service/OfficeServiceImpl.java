@@ -2,7 +2,7 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.controller.FieldValidator;
+import org.springframework.util.StringUtils;
 import project.dao.office.OfficeDao;
 import project.dao.organization.OrganizationDao;
 import project.dto.filter.office.OfficeFilter;
@@ -10,6 +10,7 @@ import project.dto.request.office.AddOfficeRequest;
 import project.dto.request.office.EditOfficeRequest;
 import project.dto.response.office.OfficeListResponse;
 import project.dto.response.office.OfficeResponse;
+import project.exception.BadRequestException;
 import project.exception.NotFoundException;
 import project.model.Office;
 import project.model.Organization;
@@ -37,7 +38,9 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public boolean save(AddOfficeRequest request) {
-        FieldValidator.validateRequiredField("Organization id", request.orgId);
+        if (request.orgId == null) {
+            throw new BadRequestException("Organization id cannot be null");
+        }
         Office office = updateOrCreateOffice(
                 null,
                 request.orgId,
@@ -52,9 +55,15 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public boolean update(EditOfficeRequest request) {
-        FieldValidator.validateRequiredField("Office id", request.id);
-        FieldValidator.validateRequiredField("Name", request.name);
-        FieldValidator.validateRequiredField("Address", request.address);
+        if (request.id == null) {
+            throw new BadRequestException("Office id cannot be null");
+        }
+        if (StringUtils.isEmpty(request.name)) {
+            throw new BadRequestException("Name cannot be empty");
+        }
+        if (StringUtils.isEmpty(request.address)) {
+            throw new BadRequestException("Address cannot be empty");
+        }
         Office office = updateOrCreateOffice(
                 request.id,
                 null,
