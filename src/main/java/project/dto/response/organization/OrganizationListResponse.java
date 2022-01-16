@@ -19,9 +19,10 @@ public class OrganizationListResponse {
 
     @Override
     public String toString() {
-        return "{id:" + id + ";" +
-                "inn:" + inn + ";" +
-                "isActive:" + isActive +
-                "}";
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"inn\":\"" + inn + "\"," +
+                "\"isActive\":\"" + isActive +
+                "\"}";
     }
 }

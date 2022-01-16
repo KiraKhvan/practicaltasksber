@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.dto.CountryDto;
-import project.dto.DocumentTypeDto;
+import project.dto.response.CountryDto;
+import project.dto.response.DocumentTypeDto;
 import project.service.CountryService;
 import project.service.DocumentTypeService;
 

@@ -1,4 +1,4 @@
-package project.dto;
+package project.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,6 +11,8 @@ public class PositionDto {
 
     @Override
     public String toString() {
-        return "{name:" + name + "}";
+        return "{" +
+                "\"name\":\"" + name + "\"" +
+                "}";
     }
 }

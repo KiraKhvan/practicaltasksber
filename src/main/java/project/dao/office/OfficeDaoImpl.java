@@ -33,7 +33,10 @@ public class OfficeDaoImpl implements OfficeDao {
     public Office loadByName(String name) {
         Object result = em.createQuery("SELECT o FROM Office o where o.name = :name")
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
         if (result != null) {
             return (Office) result;
         } else {

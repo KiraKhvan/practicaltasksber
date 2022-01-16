@@ -29,7 +29,15 @@ public class PositionDaoImpl implements PositionDao {
     public Position loadByName(String name) {
         CriteriaQuery<Position> criteria = buildCriteria("name", name);
         TypedQuery<Position> query = em.createQuery(criteria);
-        return query.getSingleResult();
+        Object result = query.getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
+        if (result != null) {
+            return (Position) result;
+        } else {
+            return null;
+        }
     }
 
     private CriteriaQuery<Position> buildCriteria(String attrName, String attrValue) {

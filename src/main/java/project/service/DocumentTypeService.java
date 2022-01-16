@@ -1,7 +1,7 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
-import project.dto.DocumentTypeDto;
+import project.dto.response.DocumentTypeDto;
 
 import java.util.List;
 

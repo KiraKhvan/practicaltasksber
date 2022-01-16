@@ -23,11 +23,12 @@ public class UserListResponse {
 
     @Override
     public String toString() {
-        return "{id:" + id + ";" +
-                "firstName:" + firstName + ";" +
-                "secondName:" + secondName + ";" +
-                "middleName:" + middleName + ";" +
-                "position:" + position +
-                "}";
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"firstName\":\"" + firstName + "\"," +
+                "\"secondName\":\"" + secondName + "\"," +
+                "\"middleName\":\"" + middleName + "\"," +
+                "\"position\":\"" + position +
+                "\"}";
     }
 }

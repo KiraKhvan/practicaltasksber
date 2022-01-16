@@ -2,7 +2,7 @@ package project.dto.response.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import project.dto.PositionDto;
+import project.dto.response.PositionDto;
 
 import java.util.List;
 
@@ -47,17 +47,18 @@ public class UserResponse {
 
     @Override
     public String toString() {
-        return "{id:" + id + ";" +
-                "firstName:" + firstName + ";" +
-                "secondName:" + secondName + ";" +
-                "middleName:" + middleName + ";" +
-                "position:" + positions + ";" +
-                "docDate:" + docDate + ";" +
-                "docName:" + docName + ";" +
-                "docNumber:" + docNumber + ";" +
-                "citizenshipName:" + citizenshipName + ";" +
-                "citizenshipCode:" + citizenshipCode + ";" +
-                "isIdentified:" + isIdentified +
-                "}";
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"firstName\":\"" + firstName + "\"," +
+                "\"secondName\":\"" + secondName + "\"," +
+                "\"middleName\":\"" + middleName + "\"," +
+                "\"position\":\"" + positions + "\"," +
+                "\"docDate\":\"" + docDate + "\"," +
+                "\"docName\":\"" + docName + "\"," +
+                "\"docNumber\":\"" + docNumber + "\"," +
+                "\"citizenshipName\":\"" + citizenshipName + "\"," +
+                "\"citizenshipCode\":\"" + citizenshipCode + "\"," +
+                "\"isIdentified\":\"" + isIdentified +
+                "\"}";
     }
 }

@@ -35,14 +35,15 @@ public class OrganizationResponse {
 
     @Override
     public String toString() {
-        return "{id:" + id + ";" +
-                "name:" + name + ";" +
-                "fullName:" + fullName + ";" +
-                "inn:" + inn + ";" +
-                "kpp:" + kpp + ";" +
-                "address:" + address + ";" +
-                "phone:" + phone + ";" +
-                "isActive:" + isActive +
-                "}";
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"name\":\"" + name + "\"," +
+                "\"fullName\":\"" + fullName + "\"," +
+                "\"inn\":\"" + inn + "\"," +
+                "\"kpp\":\"" + kpp + "\"," +
+                "\"address\":\"" + address + "\"," +
+                "\"phone\":\"" + phone + "\"," +
+                "\"isActive\":\"" + isActive +
+                "\"}";
     }
 }

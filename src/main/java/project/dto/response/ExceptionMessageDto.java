@@ -1,4 +1,4 @@
-package project.dto;
+package project.dto.response;
 
 public class ExceptionMessageDto {
 
@@ -14,5 +14,16 @@ public class ExceptionMessageDto {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    @Override
+    public String toString() {
+        if (error != null) {
+            return "{" +
+                    "\"error\": \"" + error + "\"" +
+                    "}";
+        } else {
+            return null;
+        }
     }
 }

@@ -30,7 +30,15 @@ public class DocumentTypeDaoImpl implements DocumentTypeDao {
     public DocumentType loadByName(String name) {
         CriteriaQuery<DocumentType> criteria = buildCriteria("name", name);
         TypedQuery<DocumentType> query = em.createQuery(criteria);
-        return query.getSingleResult();
+        Object result = query.getResultList()
+                .stream()
+                .findFirst()
+                .orElse(null);
+        if (result != null) {
+            return (DocumentType) result;
+        } else {
+            return null;
+        }
     }
 
     @Override

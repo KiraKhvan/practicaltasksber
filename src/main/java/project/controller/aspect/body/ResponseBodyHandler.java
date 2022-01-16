@@ -7,9 +7,9 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-import project.dto.ResultDto;
+import project.dto.response.ResultDto;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "project.controller")
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
     @Override
@@ -30,8 +30,8 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
             ServerHttpResponse serverHttpResponse
     ) {
         if (o == null) {
-            new ResultDto("success");
+            return new ResultDto(true).toString();
         }
-        return new ResultDto(o);
+        return new ResultDto(o).toString();
     }
 }

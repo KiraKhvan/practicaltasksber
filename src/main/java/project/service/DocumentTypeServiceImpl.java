@@ -3,7 +3,7 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.dao.documenttype.DocumentTypeDao;
-import project.dto.DocumentTypeDto;
+import project.dto.response.DocumentTypeDto;
 import project.model.DocumentType;
 import project.model.mapper.MapperFacade;
 

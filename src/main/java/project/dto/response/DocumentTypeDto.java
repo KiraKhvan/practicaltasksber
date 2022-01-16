@@ -1,4 +1,4 @@
-package project.dto;
+package project.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,6 +14,9 @@ public class DocumentTypeDto {
 
     @Override
     public String toString() {
-        return "{code:" + code + ";name:" + name + ";";
+        return "{" +
+                "\"code\":\"" + code + "\"," +
+                "\"name\":\"" + name + "\"" +
+                "}";
     }
 }

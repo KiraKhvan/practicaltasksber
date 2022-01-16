@@ -1,7 +1,7 @@
 package project.service;
 
 import org.springframework.validation.annotation.Validated;
-import project.dto.CountryDto;
+import project.dto.response.CountryDto;
 
 import java.util.List;
 

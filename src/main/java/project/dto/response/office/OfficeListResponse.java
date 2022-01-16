@@ -17,9 +17,10 @@ public class OfficeListResponse {
 
     @Override
     public String toString() {
-        return "{id:" + id + ";" +
-                "name:" + name + ";" +
-                "isActive:" + isActive +
-                "}";
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"name\":\"" + name + "\"," +
+                "\"isActive\":\"" + isActive +
+                "\"}";
     }
 }

@@ -4,11 +4,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import project.dto.ExceptionMessageDto;
+import project.dto.response.ExceptionMessageDto;
 import project.exception.BadRequestException;
 import project.exception.NotFoundException;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "project.controller")
 public class ExceptionHandlerController {
 
     @ExceptionHandler(NotFoundException.class)

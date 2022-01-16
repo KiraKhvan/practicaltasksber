@@ -1,104 +1,136 @@
 package project.controller;
 
+import net.minidev.json.JSONObject;
+import org.apache.http.HttpResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import project.Application;
-import project.dao.office.OfficeDao;
-import project.dto.filter.office.OfficeFilter;
-import project.dto.request.office.AddOfficeRequest;
-import project.dto.request.office.EditOfficeRequest;
-import project.model.Office;
-import project.service.OfficeService;
 
-import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {Application.class})
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class OfficeControllerTest {
-
-    @Autowired
-    private OfficeService officeService;
-
-
-    @Autowired
-    private OfficeDao officeDao;
-
-    @Autowired
-    private EntityManager em;
+public class OfficeControllerTest extends ControllerTest {
 
     @Test
     public void saveTest() {
-        AddOfficeRequest request = new AddOfficeRequest();
-        request.orgId = 1L;
-        request.address = "address";
-        request.name = "Name";
-        request.phone = "phone";
-        request.isActive = true;
-        Assert.assertTrue(officeService.save(request));
+        if (checkApplicationEnable()) {
+            JSONObject newOfficeJson = new JSONObject();
+            newOfficeJson.put("orgId", 1L);
+            newOfficeJson.put("name", "Test new office");
+            newOfficeJson.put("address", "address");
+            newOfficeJson.put("phone", "phone");
+            newOfficeJson.put("isActive", true);
+
+            HttpResponse response = sendHttpPostRequest("office/save", newOfficeJson);
+            Assert.assertNotNull(response);
+            Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
+        }
     }
 
     @Test
     public void updateTest() {
-        AddOfficeRequest request = new AddOfficeRequest();
-        request.orgId = 1L;
-        request.name = "Name";
-        request.address = "address";
-        request.phone = "phone";
-        request.isActive = true;
-        Assert.assertTrue(officeService.save(request));
+        if (checkApplicationEnable()) {
+            //Добавляем новый офис
+            JSONObject newOfficeJson = new JSONObject();
+            newOfficeJson.put("orgId", 1L);
+            newOfficeJson.put("name", "name1");
+            newOfficeJson.put("address", "address");
+            newOfficeJson.put("phone", "phone");
+            newOfficeJson.put("isActive", true);
+            sendHttpPostRequest("office/save", newOfficeJson);
 
-        Office office = officeDao.loadByName("Name");
+            //Получаем офис по имени
+            JSONObject officeByNameJson = new JSONObject();
+            officeByNameJson.put("name", "name1");
+            HttpResponse getOfficeByNameResponse = sendHttpPostRequest("office/list", officeByNameJson);
 
-        EditOfficeRequest editOfficeRequest = new EditOfficeRequest();
-        editOfficeRequest.id = office.getId();
-        editOfficeRequest.name = "name2";
-        editOfficeRequest.address = "address";
-        editOfficeRequest.phone = "phone";
-        editOfficeRequest.isActive = true;
-        Assert.assertTrue(officeService.update(editOfficeRequest));
-        office = em.find(Office.class, office.getId());
+            List list = getJsonDataArray(getOfficeByNameResponse);
+            Map data = (Map) list.get(0);
+            String id = (String) data.get("id");
 
-        Assert.assertEquals(office.getName(), "name2");
+            //Обновляем офис по id
+            JSONObject updateOfficeJson = new JSONObject();
+            updateOfficeJson.put("id", id);
+            updateOfficeJson.put("name", "name2");
+            updateOfficeJson.put("address", "address");
+            updateOfficeJson.put("phone", "phone");
+            updateOfficeJson.put("isActive", true);
+
+            HttpResponse response = sendHttpPostRequest("office/update", updateOfficeJson);
+            Assert.assertEquals(response.getStatusLine().getStatusCode(), 200);
+        }
     }
 
     @Test
     public void officesTest() {
-        AddOfficeRequest request = new AddOfficeRequest();
-        request.orgId = 1L;
-        request.name = "Name";
-        request.address = "address";
-        request.phone = "phone";
-        request.isActive = true;
-        officeService.save(request);
-        Office office = officeDao.loadByName("Name");
+        if (checkApplicationEnable()) {
+            //Создаем фильтр
+            JSONObject jsonFilter = new JSONObject();
+            jsonFilter.put("orgId", 1L);
+            jsonFilter.put("name", "Test1");
 
-        OfficeFilter filter = new OfficeFilter();
-        filter.orgId = 1L;
-        filter.name = "Name";
+            //Получаем список офисов по фильтру
+            HttpResponse getOfficeByFilter = sendHttpPostRequest("office/list", jsonFilter);
+            List jsonArray = getJsonDataArray(getOfficeByFilter);
+            //Проверяем что список офисов пуст, так как еще нет офиса с заданным именем
+            Assert.assertTrue(CollectionUtils.isEmpty(jsonArray));
 
-        Assert.assertEquals(officeService.getOffices(filter).get(0).id, office.getId().toString());
+            //Добавляем новый офис
+            JSONObject newOfficeJson = new JSONObject();
+            newOfficeJson.put("orgId", 1L);
+            newOfficeJson.put("name", "Test1");
+            newOfficeJson.put("address", "address");
+            newOfficeJson.put("phone", "phone");
+            newOfficeJson.put("isActive", true);
+            sendHttpPostRequest("office/save", newOfficeJson);
+
+            //Получаем список офисов по фильтру
+            getOfficeByFilter = sendHttpPostRequest("office/list", jsonFilter);
+            jsonArray = getJsonDataArray(getOfficeByFilter);
+            //Список не пуст
+            Assert.assertNotEquals(jsonArray.size(), 0);
+        }
     }
 
     @Test
     public void officeTest() {
-        AddOfficeRequest request = new AddOfficeRequest();
-        request.orgId = 1L;
-        request.name = "Name";
-        request.address = "address";
-        request.phone = "phone";
-        request.isActive = true;
-        officeService.save(request);
-        Office office = officeDao.loadByName("Name");
-        Assert.assertNotNull(officeService.getOffice(office.getId()));
+        if (checkApplicationEnable()) {
+            //Добавляем новый офис
+            JSONObject newOfficeJson = new JSONObject();
+            newOfficeJson.put("orgId", 1L);
+            newOfficeJson.put("name", "Test1");
+            newOfficeJson.put("address", "address");
+            newOfficeJson.put("phone", "phone");
+            newOfficeJson.put("isActive", true);
+            sendHttpPostRequest("office/save", newOfficeJson);
+
+
+            //Получаем офис по имени
+            JSONObject officeByNameJson = new JSONObject();
+            officeByNameJson.put("name", "Test1");
+            HttpResponse getOfficeByNameResponse = sendHttpPostRequest("office/list", officeByNameJson);
+
+            List list = getJsonDataArray(getOfficeByNameResponse);
+            Map dataByName = (Map) list.get(0);
+            String id = (String) dataByName.get("id");
+
+            //Получаем офис по id
+            HttpResponse getOfficeIdNameResponse = sendHttpGetRequest("office/" + id, null);
+
+            Map dataById = getJsonData(getOfficeIdNameResponse);
+            Assert.assertNotNull(dataById);
+        }
     }
 }

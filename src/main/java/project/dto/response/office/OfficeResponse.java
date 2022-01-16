@@ -23,11 +23,12 @@ public class OfficeResponse {
 
     @Override
     public String toString() {
-        return "{id:" + id + ";" +
-                "name:" + name + ";" +
-                "address:" + address + ";" +
-                "phone:" + phone + ";" +
-                "isActive:" + isActive +
-                "}";
+        return "{" +
+                "\"id\":\"" + id + "\"," +
+                "\"name\":\"" + name + "\"," +
+                "\"address\":\"" + address + "\"," +
+                "\"phone\":\"" + phone + "\"," +
+                "\"isActive\":\"" + isActive +
+                "\"}";
     }
 }
