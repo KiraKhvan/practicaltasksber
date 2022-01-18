@@ -21,7 +21,7 @@ import java.util.Map;
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class UserControllerTest extends ControllerTest {
+public class UserControllerTest extends ControllerTestHelper {
 
     @Test
     public void saveTest() {

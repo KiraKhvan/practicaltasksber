@@ -1,6 +1,5 @@
 package project.controller;
 
-import net.minidev.json.JSONObject;
 import org.apache.http.HttpResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,7 +19,7 @@ import java.util.List;
 @WebAppConfiguration(value = "src/main/resources")
 @Transactional
 @DirtiesContext
-public class ReferenceControllerTest extends ControllerTest {
+public class ReferenceControllerTest extends ControllerTestHelper {
 
     @Test
     public void docsTest() {
